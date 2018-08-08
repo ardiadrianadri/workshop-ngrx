@@ -1,0 +1,31 @@
+img.framing{
+  width: 60px;
+  height: 60px;
+  margin: 0% 4%;
+}
+
+mat-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+span.title {
+  grid-column-start: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+}
+
+span.options {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+i.material-icons.header {
+  font-size: 36px;
+  cursor: pointer;
+}
+
