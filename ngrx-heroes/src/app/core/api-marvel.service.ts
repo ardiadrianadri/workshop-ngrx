@@ -20,7 +20,7 @@ import { Auth } from './auth';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class NameService {
+export class ApiMarvelService {
 
   private _endpoints: MarvelEndPoints;
 
@@ -94,7 +94,8 @@ export class NameService {
         .filter((hero: MarvelHero) => this._filterEmptyResults(hero));
 
         return this._buildMarvelAnswer(heroes, answer.data);
-      })
+      }),
+      catchError(error => Observable.throw(error))
     );
   }
 
@@ -120,7 +121,8 @@ export class NameService {
         };
 
         return this._buildMarvelAnswer([hero], answer.data);
-      })
+      }),
+      catchError(error => Observable.throw(error))
     );
   }
 
@@ -151,7 +153,8 @@ export class NameService {
           .filter((comic: MarvelElement) => this._filterEmptyResults(comic));
 
           return this._buildMarvelAnswer(comics, answer.data);
-        })
+        }),
+        catchError(error => Observable.throw(error))
     );
   }
 
@@ -182,7 +185,8 @@ export class NameService {
         .filter((serie: MarvelElement) => this._filterEmptyResults(serie));
 
         return this._buildMarvelAnswer(series, answer.data);
-      })
+      }),
+      catchError(error => Observable.throw(error))
     );
   }
 
