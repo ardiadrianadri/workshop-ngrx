@@ -8,9 +8,10 @@ import {MatButtonModule} from '@angular/material/button';
 
 import { HeaderComponent } from './header.component';
 import { SearchFormComponent } from './search-form.component';
+import { TableComponent } from './table.component';
 
 const exportModule = [ FormsModule, CommonModule ];
-const exportComponent = [ HeaderComponent, SearchFormComponent ];
+const exportComponent = [ HeaderComponent, SearchFormComponent, TableComponent ];
 
 @NgModule({
   imports: [ ...exportModule, MatToolbarModule, MatInputModule, MatButtonModule],

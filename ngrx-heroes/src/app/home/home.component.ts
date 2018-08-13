@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ApiMarvelService } from '../core/api-marvel.service';
-import { MarvelAnswer } from '../common';
+import { MarvelAnswer, TableConfig, MarvelElement, MarvelHero } from '../common';
 
 
 @Component({
@@ -14,17 +15,28 @@ import { MarvelAnswer } from '../common';
 
 export class HomeComponent {
 
-  // public herosList$: Observable<MarvelAnswer>;
+  public herosList$: Observable<MarvelAnswer>;
+  public tableSearchConfig: TableConfig = [
+    { title: 'Name', value: 'name' },
+    { title: 'Description', value: 'description' }
+  ];
 
   constructor (
     private _marvelApi: ApiMarvelService
   ) {}
 
   public onSearch(superHeroName: string) {
-    this._marvelApi.getListHeroes(superHeroName, 5, 0)
-    .subscribe(
-      (answer: MarvelAnswer) => { console.log(answer); },
-      (error: any) => { console.log(error); }
+    this.herosList$ = this._marvelApi.getListHeroes(superHeroName, 30, 0)
+    .pipe(
+      map((answer: MarvelAnswer) => {
+        const len = answer.result.length;
+
+        for (let i = 0; i < len; i++) {
+          answer.result[i].description = answer.result[i].description.substr(0, 100);
+        }
+
+        return answer;
+      })
     );
   }
 }

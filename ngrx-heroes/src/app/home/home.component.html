@@ -4,3 +4,6 @@
 <div class="form">
   <afe-search-form (superHeroName)="onSearch($event)"></afe-search-form>
 </div>
+<div class="results">
+  <afe-table [tableConfig]="tableSearchConfig" [tableData]="herosList$ | async" ></afe-table>
+</div>
