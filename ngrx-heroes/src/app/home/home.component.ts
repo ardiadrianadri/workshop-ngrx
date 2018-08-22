@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApiMarvelService } from '../core/api-marvel.service';
@@ -23,6 +23,8 @@ export class HomeComponent {
       { title: 'Description', value: 'description' }
     ]
   };
+
+  public loading = false;
 
   private _searchName: string;
 
@@ -48,12 +50,16 @@ export class HomeComponent {
   }
 
   public onSearch(superHeroName: string, page?: PagTable ) {
+    this.loading = true;
     const realLimit = (page) ? page.limit : 5;
     const realPage = (page) ? page.page : 0;
     const offset = realLimit * realPage;
     this._searchName = superHeroName;
     this.herosList$ = this._marvelApi.getListHeroes(this._searchName, realLimit , offset)
-    .pipe(map(this._getTableData));
+    .pipe(map((answer: MarvelAnswer) => {
+      this.loading = false;
+      return this._getTableData(answer);
+    }));
   }
 
   public requestNewPage(page: PagTable) {

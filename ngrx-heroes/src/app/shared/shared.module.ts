@@ -10,9 +10,10 @@ import {MatSelectModule} from '@angular/material/select';
 import { HeaderComponent } from './header.component';
 import { SearchFormComponent } from './search-form.component';
 import { TableComponent } from './table.component';
+import { LoadingComponent } from './loading.component';
 
 const exportModule = [ FormsModule, CommonModule ];
-const exportComponent = [ HeaderComponent, SearchFormComponent, TableComponent ];
+const exportComponent = [ HeaderComponent, SearchFormComponent, TableComponent, LoadingComponent ];
 
 @NgModule({
   imports: [ ...exportModule, MatToolbarModule, MatInputModule, MatButtonModule, MatSelectModule],
