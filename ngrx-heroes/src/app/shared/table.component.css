@@ -1,0 +1,22 @@
+div.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+}
+
+div.pagination button {
+  margin: 0% 1%;
+}
+
+div.pagination mat-select {
+  width: 25%;
+  text-align: center;
+  border-bottom: solid black 1px;
+  font-size: 20px;
+}
+
+tr.active {
+  background-color:rgba(0,0,0,0.12);
+  color: white;
+  cursor: pointer;
+}

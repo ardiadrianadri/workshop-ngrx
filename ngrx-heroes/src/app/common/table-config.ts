@@ -3,4 +3,7 @@ export interface RowConfig {
   value: string;
 }
 
-export type TableConfig = RowConfig[];
+export interface TableConfig {
+  sizes: number[];
+  rowsConfig: RowConfig[];
+}

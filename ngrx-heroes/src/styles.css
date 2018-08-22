@@ -67,3 +67,11 @@ th {
 td {
   border: solid black 3px;
 }
+
+th.begin, td.begin {
+  border-left: none;
+}
+
+th.last, td.last {
+  border-right: none;
+}

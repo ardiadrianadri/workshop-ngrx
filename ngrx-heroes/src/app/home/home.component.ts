@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApiMarvelService } from '../core/api-marvel.service';
-import { MarvelAnswer, TableConfig, MarvelElement, MarvelHero } from '../common';
+import { MarvelAnswer, TableConfig, TableData, MarvelHero, PagTable } from '../common';
 
 
 @Component({
@@ -15,28 +15,48 @@ import { MarvelAnswer, TableConfig, MarvelElement, MarvelHero } from '../common'
 
 export class HomeComponent {
 
-  public herosList$: Observable<MarvelAnswer>;
-  public tableSearchConfig: TableConfig = [
-    { title: 'Name', value: 'name' },
-    { title: 'Description', value: 'description' }
-  ];
+  public herosList$: Observable<TableData>;
+  public tableSearchConfig: TableConfig = {
+    sizes: [5, 10, 20],
+    rowsConfig: [
+      { title: 'Name', value: 'name' },
+      { title: 'Description', value: 'description' }
+    ]
+  };
+
+  private _searchName: string;
 
   constructor (
     private _marvelApi: ApiMarvelService
   ) {}
 
-  public onSearch(superHeroName: string) {
-    this.herosList$ = this._marvelApi.getListHeroes(superHeroName, 30, 0)
-    .pipe(
-      map((answer: MarvelAnswer) => {
-        const len = answer.result.length;
 
-        for (let i = 0; i < len; i++) {
-          answer.result[i].description = answer.result[i].description.substr(0, 100);
-        }
+  private _getTableData ( answer: MarvelAnswer): TableData {
+    const currentPage = Math.ceil(answer.offset / answer.limit);
+    const currentLimit = answer.limit;
+    const lastPage = Math.ceil(answer.total / answer.limit);
 
-        return answer;
+    return {
+      currentPage: currentPage,
+      currentLimit: currentLimit,
+      lastPage: lastPage,
+      data: (answer.result as MarvelHero []).map((hero: MarvelHero) => {
+        hero.description = hero.description.substr(0, 100);
+        return hero;
       })
-    );
+    };
+  }
+
+  public onSearch(superHeroName: string, page?: PagTable ) {
+    const realLimit = (page) ? page.limit : 5;
+    const realPage = (page) ? page.page : 0;
+    const offset = realLimit * realPage;
+    this._searchName = superHeroName;
+    this.herosList$ = this._marvelApi.getListHeroes(this._searchName, realLimit , offset)
+    .pipe(map(this._getTableData));
+  }
+
+  public requestNewPage(page: PagTable) {
+    this.onSearch(this._searchName, page);
   }
 }

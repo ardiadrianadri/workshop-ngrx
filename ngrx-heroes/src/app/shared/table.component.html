@@ -1,12 +1,43 @@
-<table *ngIf="tableConfig">
-  <thead>
-    <tr>
-      <th *ngFor="let row of tableConfig">{{row.title}}</th>
-    </tr>
-  </thead>
-  <tbody *ngIf="tableData">
-    <tr *ngFor="let item of tableData.result">
-      <td *ngFor="let row of tableConfig">{{item[row.value]}}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="results">
+  <table *ngIf="tableConfig">
+    <thead>
+      <tr>
+        <th *ngFor="let row of tableConfig.rowsConfig; let i = index" [ngClass]="{'begin': i===0, 'last': i===(configLeng - 1)}">{{row.title}}</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="tableData">
+      <tr
+      *ngFor="let item of tableData.data; let rowIndex = index"
+      (mouseenter)="cursorOnRow = rowIndex"
+      (mouseleave)="cursorOnRow = -1"
+      [ngClass]="{'active': cursorOnRow === rowIndex}"
+      >
+        <td *ngFor="let row of tableConfig.rowsConfig; let i = index" [ngClass]="{'begin': i===0, 'last': i===(configLeng - 1)}">{{item[row.value]}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="pagination" *ngIf="tableData">
+  <button mat-raised-button
+  class="material-icons"
+  color="primary"
+  (click)="requestNewPage(tableData.currentLimit, 0)">
+  first_page</button>
+  <button mat-raised-button
+  class="material-icons"
+  color="primary"
+  (click)="requestNewPage(tableData.currentLimit, tableData.currentPage - 1 )">
+  navigate_before</button>
+  <mat-select
+  placeholder="{{(tableData.currentLimit) ? tableData.currentLimit : 0}}" (valueChange)="requestNewPage($event, 0)">
+    <mat-option *ngFor="let size of tableConfig.sizes" value="{{size}}">{{size}}</mat-option>
+  </mat-select>
+  <button mat-raised-button
+  class="material-icons"
+  color="primary"
+  (click)="requestNewPage(tableData.currentLimit, tableData.currentPage + 1)">navigate_next</button>
+  <button mat-raised-button
+  class="material-icons"
+  color="primary"
+  (click)="requestNewPage(tableData.currentLimit, tableData.lastPage)">last_page</button>
+</div>

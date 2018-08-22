@@ -1,9 +1,12 @@
 import {
   Component,
-  Input
+  Input,
+  OnInit,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
-import { TableConfig, MarvelAnswer } from '../common';
+import { TableConfig, PagTable, TableData } from '../common';
 
 @Component({
   selector: 'afe-table',
@@ -11,12 +14,34 @@ import { TableConfig, MarvelAnswer } from '../common';
   styleUrls: ['./table.component.css']
 })
 
-export class TableComponent {
+export class TableComponent implements OnInit {
 
   @Input()
-  tableConfig: TableConfig;
+  public tableConfig: TableConfig;
 
   @Input()
-  tableData: MarvelAnswer;
+  public tableData: TableData;
 
+  @Output()
+  public pagTable: EventEmitter<PagTable> = new EventEmitter<PagTable>();
+
+  public configLeng: number;
+  public cursorOnRow = -1;
+
+  ngOnInit() {
+    this.configLeng = this.tableConfig.rowsConfig.length;
+  }
+
+  public requestNewPage (limit: number, page: number) {
+    const realPage = (page < 0)
+    ? 0 :
+    (page >= this.tableData.lastPage)
+    ? this.tableData.lastPage - 1 :
+    page;
+
+    this.pagTable.emit({
+      page: realPage,
+      limit: limit
+    });
+  }
 }
