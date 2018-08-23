@@ -2,6 +2,7 @@
 <div class="header">
     <afe-header></afe-header>
 </div>
+<afe-error-msg [msg]="errorMsg"></afe-error-msg>
 <div class="form">
   <afe-search-form (superHeroName)="onSearch($event)"></afe-search-form>
 </div>

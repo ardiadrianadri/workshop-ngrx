@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 import { ApiMarvelService } from '../core/api-marvel.service';
 import { MarvelAnswer, TableConfig, TableData, MarvelHero, PagTable } from '../common';
@@ -25,6 +25,7 @@ export class HomeComponent {
   };
 
   public loading = false;
+  public errorMsg: string = null;
 
   private _searchName: string;
 
@@ -56,10 +57,17 @@ export class HomeComponent {
     const offset = realLimit * realPage;
     this._searchName = superHeroName;
     this.herosList$ = this._marvelApi.getListHeroes(this._searchName, realLimit , offset)
-    .pipe(map((answer: MarvelAnswer) => {
-      this.loading = false;
-      return this._getTableData(answer);
-    }));
+    .pipe(
+      map((answer: MarvelAnswer) => {
+        this.loading = false;
+        return this._getTableData(answer);
+      }),
+      catchError((error: Error) => {
+        this.loading = false;
+        this.errorMsg = 'The comunication with Marvel services was not possible';
+        return Observable.throw(error);
+      })
+    );
   }
 
   public requestNewPage(page: PagTable) {

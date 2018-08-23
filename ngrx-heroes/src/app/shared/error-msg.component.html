@@ -1,0 +1,14 @@
+<mat-card class="error-card" *ngIf="msg">
+  <mat-card-header>
+    <div mat-card-avatar><span class="material-icons avatar">error_outline</span></div>
+    <mat-card-title class="title">Error</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{msg}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button class="close-button" (click)="msg=null">Close</button>
+  </mat-card-actions>
+</mat-card>

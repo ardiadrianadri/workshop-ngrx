@@ -1,0 +1,18 @@
+mat-card.error-card {
+  color: white;
+  background: red;
+}
+
+span.avatar {
+  font-size: 30px;
+}
+
+mat-card-title.title {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+button.close-button {
+  border: 1px solid;
+  box-shadow: 2px 3px;
+}
