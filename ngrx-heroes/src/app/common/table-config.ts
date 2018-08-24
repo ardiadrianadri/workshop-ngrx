@@ -4,6 +4,7 @@ export interface RowConfig {
 }
 
 export interface TableConfig {
+  id: string;
   sizes: number[];
   rowsConfig: RowConfig[];
 }

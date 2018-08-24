@@ -11,8 +11,12 @@
       (mouseenter)="cursorOnRow = rowIndex"
       (mouseleave)="cursorOnRow = -1"
       [ngClass]="{'active': cursorOnRow === rowIndex}"
+      (click)="clickOnRow(item[tableConfig.id])"
       >
-        <td *ngFor="let row of tableConfig.rowsConfig; let i = index" [ngClass]="{'begin': i===0, 'last': i===(configLeng - 1)}">{{item[row.value]}}</td>
+        <td
+        *ngFor="let row of tableConfig.rowsConfig; let i = index"
+        [ngClass]="{'begin': i===0, 'last': i===(configLeng - 1)}"
+        >{{item[row.value]}}</td>
       </tr>
     </tbody>
   </table>

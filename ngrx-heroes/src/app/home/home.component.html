@@ -6,4 +6,9 @@
 <div class="form">
   <afe-search-form (superHeroName)="onSearch($event)"></afe-search-form>
 </div>
-<afe-table [tableConfig]="tableSearchConfig" [tableData]="herosList$ | async" (pagTable)="requestNewPage($event)"></afe-table>
+<afe-table
+[tableConfig]="tableSearchConfig"
+[tableData]="herosList$ | async"
+(pagTable)="requestNewPage($event)"
+(rowClicked)="navigateDetails($event)"
+></afe-table>

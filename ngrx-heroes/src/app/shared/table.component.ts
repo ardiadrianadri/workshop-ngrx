@@ -25,6 +25,9 @@ export class TableComponent implements OnInit {
   @Output()
   public pagTable: EventEmitter<PagTable> = new EventEmitter<PagTable>();
 
+  @Output()
+  public rowClicked: EventEmitter<String> = new EventEmitter<String>();
+
   public configLeng: number;
   public cursorOnRow = -1;
 
@@ -43,5 +46,9 @@ export class TableComponent implements OnInit {
       page: realPage,
       limit: limit
     });
+  }
+
+  public clickOnRow (rowId: string) {
+    this.rowClicked.emit(rowId);
   }
 }

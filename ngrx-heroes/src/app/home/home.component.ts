@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -17,6 +18,7 @@ export class HomeComponent {
 
   public herosList$: Observable<TableData>;
   public tableSearchConfig: TableConfig = {
+    id: 'id',
     sizes: [5, 10, 20],
     rowsConfig: [
       { title: 'Name', value: 'name' },
@@ -30,7 +32,8 @@ export class HomeComponent {
   private _searchName: string;
 
   constructor (
-    private _marvelApi: ApiMarvelService
+    private _marvelApi: ApiMarvelService,
+    private _router: Router
   ) {}
 
 
@@ -72,5 +75,9 @@ export class HomeComponent {
 
   public requestNewPage(page: PagTable) {
     this.onSearch(this._searchName, page);
+  }
+
+  public navigateDetails(heroIndex: string) {
+    this._router.navigate(['detail', heroIndex]);
   }
 }
