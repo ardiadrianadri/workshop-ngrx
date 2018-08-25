@@ -1,0 +1,16 @@
+div.hero-details{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+div.hero-photo img {
+  width: 300px;
+}
+
+div.hero-description {
+  align-self: center;
+  font-size: 20px;
+  line-height: 200%;
+  padding: 0px 10px;
+}

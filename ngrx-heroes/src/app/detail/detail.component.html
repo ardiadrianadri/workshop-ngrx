@@ -1,7 +1,11 @@
-<afe-card [title]="'This is a test'">
-  <ul>
-    <li><strong>Name:</strong> Pepe</li>
-    <li><strong>Phone:</strong> 9999999999</li>
-    <li><strong>Email:</strong> pepe@email.com</li>
-  </ul>
-</afe-card>
+<afe-loading [show]="(loading > 0)"></afe-loading>
+<afe-error-msg [(msg)]="errorMsg"></afe-error-msg>
+<div class="hero-card">
+  <afe-card [title]="titleHero">
+    <afe-hero-card [hero]="hero$ | async"></afe-hero-card>
+  </afe-card>
+</div>
+<div class="hero-details">
+  <div class="hero-comics"></div>
+  <div class="hero-stories"></div>
+</div>
