@@ -1,0 +1,12 @@
+div.card{
+  border: solid  black 3px;
+  border-radius: 12px;
+  margin: 5px;
+}
+
+div.card div.header {
+  border-bottom: solid black 3px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
