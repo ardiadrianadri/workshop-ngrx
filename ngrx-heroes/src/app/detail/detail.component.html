@@ -6,6 +6,22 @@
   </afe-card>
 </div>
 <div class="hero-details">
-  <div class="hero-comics"></div>
-  <div class="hero-stories"></div>
+  <div class="hero-comics">
+      <afe-card [title]="titleComics">
+          <afe-table
+          [tableConfig]="configElements"
+          [tableData]="comics$ | async"
+          (pagTable)="newPage('comics', $event)"
+          ></afe-table>
+      </afe-card>
+  </div>
+  <div class="hero-stories">
+      <afe-card [title]="titleStories">
+          <afe-table
+          [tableConfig]="configElements"
+          [tableData]="stories$ | async"
+          (pagTable)="newPage('stories', $event)"
+          ></afe-table>
+      </afe-card>
+  </div>
 </div>

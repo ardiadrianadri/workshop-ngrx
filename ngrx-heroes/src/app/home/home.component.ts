@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { ApiMarvelService } from '../core/api-marvel.service';
@@ -47,7 +47,7 @@ export class HomeComponent {
       currentLimit: currentLimit,
       lastPage: lastPage,
       data: (answer.result as MarvelHero []).map((hero: MarvelHero) => {
-        hero.description = hero.description.substr(0, 100);
+        hero.description = (hero.description) ? hero.description.substr(0, 100) : '';
         return hero;
       })
     };
@@ -68,7 +68,7 @@ export class HomeComponent {
       catchError((error: Error) => {
         this.loading = false;
         this.errorMsg = 'The comunication with Marvel services was not possible';
-        return Observable.throw(error);
+        return throwError(error);
       })
     );
   }
