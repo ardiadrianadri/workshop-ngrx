@@ -17,14 +17,14 @@ Let's check what happen in that example:
 
  ![diagram two way data binding](./diagrams/two-way-data-bind.jpg)
 
- It is great in order to add logic in the templates which update the data as a consequence of the user interactions but, at the same time, it brings other problem like to decide what it the right value of a variable if it is modify at the same time by the template and the component.
+ It is great in order to add logic in the templates which update the data as a consequence of the user interactions but, at the same time, it brings other problem like to decide what is the right value of a variable if it is modify at the same time by the template and the component.
 
 Returning on our previus example, if we check the browser console, we'll se that there is the next error:
 ```
 ERROR
 Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. Previous value: 'name: Angular'. Current value: 'name: JavaScript'.
 ```
-What it says, basically is that the variable name is getting two different values at the end of the component's life cicle; one from the object and other from the view. The app has choosed the one from the view because it is the last value recived but it can not be completely sure if it is the expected result. The reson is easy, both values are given with no user interaction so the app can not decide which is the real source of true.
+What it says, basically, is that the variable name is getting two different values at the end of the component's life cicle; one from the object and other from the view. The app has choosed the one from the view because it is the last value recived but it can not be completely sure if it is the expected result. The reson is easy, both values are given with no user interaction so the app can not decide which is the real source of true.
 
 ## The state
 
@@ -43,8 +43,8 @@ Well, the thing is that this problem has a easy solution. Our store is a JS obje
 ```
 {
     cars: [{...}, {...}, {...}],
-    clients: {...}, {...}, {...}],
-    comercials: {...}, {...}, {...}]
+    clients: [{...}, {...}, {...}],
+    comercials: [{...}, {...}, {...}]
 }
 ```
 To reatreave information we can create selectors. A selector is a function that returns a part of the state:
@@ -65,3 +65,23 @@ function carSelector (state, cardId) {
 Sumarizing, we have a global app state which is updated by all the components and read it by all the views. Each veiw gets the information that it needs by the selectors that are functions to get a piece of the global state from the store.
 
 ![Global store](./diagrams/global-store.jpg)
+
+## Actions
+
+Until now we have defined a single flux of data which gets the information from the global store, selects the specific information by the selectors and print the information in the view. However, it is clearly insuficient to code a web app. In a web app the information usually get transformed as a result of the user interactions. It is the reason it was implemented the two-way-data-binding in the first time; to allow that the actions of the user update the state of the view. However, we already know the problems that the two-way-data-binding has and it is something we want to avoid so... What is the alternative?
+
+In web we have something called events. I am quite sure that I'm telling you something new. The 'click', 'change', 'keyup', 'keydown', etc... These events are fired by the browser as a result of a user action. If we took the data of the events and we bring it inside the object to update the state we will keep the sense of the flux, will avoid the conflict of having more than one source of true and the view is updated as a result of an user action. 
+
+![One way data binding + action](./diagrams/one-way-data-bind_action.jpg)
+
+I have to mention that this is not the same that I implemented in the first example where I exposed the problems of the "two-data-binding" implementation. It is true that the template execute an object's method but this execution happen without any user interactions so it is like the same template had the code. If we add an action in this example the error gets solved:
+
+https://stackblitz.com/edit/two-data-bind-fail-solution
+
+## The reducers
+
+So, what we have now is:
+
+1- A global store which is written by the objects and read by the template
+2- A 
+
